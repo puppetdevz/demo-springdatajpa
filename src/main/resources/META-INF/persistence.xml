@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                                 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <!-- 配置 persistence-unit （持久化单元）—— 至少配置一个，否则不满足约束
+          name：持久化单元名称
+          transaction-type：事务类型
+          	* RESOURCE_LOCAL：本地事务管理（数据源只有一个，只连接一个数据库）
+          	* JTA：分布式事务管理（有多个数据源，同时连接多个数据库）
+	-->
+    <persistence-unit name="demoJpa" transaction-type="RESOURCE_LOCAL">
+        <!-- 配置 JPA 规范的服务提供商，即实现方式，该案例中使用的是 Hibernate -->
+        <!-- 注意：此处需要使用全类名 -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!-- 数据库驱动 -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <!-- 数据库地址 -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.211.55.4:3306/db4study" />
+            <!-- 数据库用户名 -->
+            <property name="javax.persistence.jdbc.user" value="puppet" />
+            <!-- 数据库密码 -->
+            <property name="javax.persistence.jdbc.password" value="mysql" />
+
+            <!-- JPA 服务提供者的可选配置：我们 JPA 的服务提供者为 Hibernate，所以 JPA 的核心配置中兼容 Hibernate 的配置 -->
+            <!-- 显示 SQL：使最终生成的 SQL 语句能够被打印到日志中-->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <!-- 自动创建数据库表，可选值和含义如下：
+				* create：程序运行时，如果没有表，则创建，如果表已存在，则删除后再创建
+				* update：程序运行时，如果表已存在，则直接使用，否则创建。
+				* none：程序运行时，不会创建，此时执行其他 SQL 语句可能会报错（因为表不存在）。
+				默认值为 none。—— 如果配置为 none，可以删除该条配置。
+			-->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+        </properties>
+    </persistence-unit>
+</persistence>
